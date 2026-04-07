@@ -1,56 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/CSS/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="../style.css" />
     <title>Sign In in Orbytra</title>
-</head>
-<body>
-    
-    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    
-    <div class="card p-4 shadow-lg border-0 bg-white" style="width: 100%; max-width: 400px; border-radius: 15px;">
-        
+  </head>
+  <body>
+    <div
+      class="container d-flex justify-content-center align-items-center"
+      style="min-height: 100vh"
+    >
+      <div
+        class="card p-4 shadow-lg border-0 bg-white"
+        style="width: 100%; max-width: 400px; border-radius: 15px"
+      >
         <div class="card-body text-center">
-            <h2 class="text-gradient fw-bold mb-1" style="font-family: 'Orbitron', sans-serif;">Join Orbytra</h2>
-            <p class="text-muted small mb-4">Start your collection today</p>
-            
-            <form id="signup-form">
+          <h2
+            class="text-gradient fw-bold mb-1"
+            style="font-family: &quot;Orbitron&quot;, sans-serif"
+          >
+            Join Orbytra
+          </h2>
+          <p class="text-muted small mb-4">Start your collection today</p>
 
-                <div class="mb-3 text-start">
-                    <label for="reg-email" class="form-label text-dark fw-semibold small">Email Address</label>
-                    <input type="email" class="form-control border-light-subtle bg-light" id="reg-email" placeholder="name@example.com" required>
-                </div>
+          <form id="signup-form">
+            <div class="mb-3 text-start">
+              <label
+                for="reg-email"
+                class="form-label text-dark fw-semibold small"
+                >Email Address</label
+              >
+              <input
+                type="email"
+                class="form-control border-light-subtle bg-light"
+                id="reg-email"
+                placeholder="name@example.com"
+                required
+              />
+            </div>
 
-                <div class="mb-4 text-start">
-                    <label for="reg-password" class="form-label text-dark fw-semibold small">Password</label>
-                    <input type="password" class="form-control border-light-subtle bg-light" id="reg-password" placeholder="••••••••" required>
-                </div>
+            <div class="mb-4 text-start">
+              <label
+                for="reg-password"
+                class="form-label text-dark fw-semibold small"
+                >Password</label
+              >
+              <input
+                type="password"
+                class="form-control border-light-subtle bg-light"
+                id="reg-password"
+                placeholder="••••••••"
+                required
+              />
+            </div>
 
-                <div class="p-3 mb-4 rounded bg-light border">
-                    <p class="text-start mb-2 small fw-bold text-dark">Requirements:</p>
-                    <ul class="text-start small text-muted mb-0 ps-3">
-                        <li id="req-length" class="text-danger">At least 8 characters</li>
-                        <li id="req-special" class="text-danger">One special character (@, $, !)</li>
-                        <li id="req-number" class="text-danger">One number (0-9)</li>
-                    </ul>
-                </div>
+            <div class="p-3 mb-4 rounded bg-light border">
+              <p class="text-start mb-2 small fw-bold text-dark">
+                Requirements:
+              </p>
+              <ul class="text-start small text-muted mb-0 ps-3">
+                <li id="req-length" class="text-danger">
+                  At least 8 characters
+                </li>
+                <li id="req-special" class="text-danger">
+                  One special character (@, $, !)
+                </li>
+                <li id="req-number" class="text-danger">One number (0-9)</li>
+              </ul>
+            </div>
 
-                <button type="submit" class="btn btn-gradient w-100 py-2 fw-bold rounded-pill shadow-sm" id="sign-up-btn">Create Account</button>
-            </form>
+            <button
+              type="submit"
+              class="btn btn-gradient w-100 py-2 fw-bold rounded-pill shadow-sm"
+              id="sign-up-btn"
+            >
+              Create Account
+            </button>
+          </form>
 
-            <p class="mt-4 mb-0 small text-muted">
-                Already have an account? <a href="sign-in.html" class="text-primary fw-bold text-decoration-none">Sign In</a>
-            </p>
+          <p class="mt-4 mb-0 small text-muted">
+            Already have an account?
+            <a
+              href="sign-in.html"
+              class="text-primary fw-bold text-decoration-none"
+              >Sign In</a
+            >
+          </p>
         </div>
+      </div>
     </div>
-</div>
 
-
-    <script type="module" src="/JS/app.js"></script>
+    <script type="module" src="app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>
