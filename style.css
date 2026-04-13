@@ -1,26 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700&display=swap');
-
+/* GLOBAL SETTINGS */
 body {
     font-family: 'Orbitron', sans-serif !important;
-    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    overflow-x: hidden;
+    background-color: #ffffff;
 }
 
-h1, h2, h3, h4, .navbar-brand, .nav-link {
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+.font-play { font-family: 'Play', sans-serif; }
+.font-monda { font-family: 'Monda', sans-serif; }
+.font-orbitron { font-family: 'Orbitron', sans-serif; }
 
-.form-control, .btn {
-    font-family: 'Inter', sans-serif !important;
-}
-
-.btn, 
-button, 
-input[type="button"], 
-input[type="submit"] {
-    font-family: 'Orbitron', sans-serif !important;
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
+/* NAVBAR */
+.navbar-custom {
+    background: rgba(2, 2, 5, 0.95) !important;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1050;
 }
 
 .text-gradient {
@@ -28,17 +23,162 @@ input[type="submit"] {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    display: inline-block;
 }
 
-.btn-gradient{
-    background: linear-gradient(90deg, #7000FF, #00D1FF);
-    border: none;
-    color: white;
-    outline: none;
-    transition: .3s ease-in-out;
+/* HERO SECTION */
+.hero-parallax {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('img/backgroundL.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    align-items: center; /* This keeps text and image centered vertically */
+    padding-top: 80px; 
 }
 
-.btn-gradient:hover{
+.hero-dashboard-img {
+    max-width: 100%;
+    filter: drop-shadow(0 20px 50px rgba(0, 209, 255, 0.4));
+    border-radius: 20px;
+}
+
+/* BUTTONS */
+.btn {
+    font-family: 'Orbitron', sans-serif !important;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-gradient {
+    background: linear-gradient(90deg, #7000FF, #00D1FF) !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(112, 0, 255, 0.3);
+}
+
+.btn-gradient:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 209, 255, 0.5);
+    color: white !important;
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+}
+
+.btn-glass:hover {
+    background: rgba(0, 209, 255, 0.2) !important;
+    border-color: #00D1FF !important;
+    color: #00D1FF !important;
+}
+
+/* CARDS */
+.card-custom {
+    background-color: #882bd9;
     color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.card-custom:hover {
+    transform: translateY(-10px);
+}
+
+.shadow-parallax {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    border-radius: 20px;
+}
+
+/* RESPONSIVE BORDERS FOR FOOTER */
+@media (min-width: 768px) {
+    .border-md-start { border-left: 1px solid rgba(255,255,255,0.1) !important; }
+    .border-md-end { border-right: 1px solid rgba(255,255,255,0.1) !important; }
+}
+
+/* Layout Spacing */
+.about-top-spacing {
+    padding-top: 120px;
+}
+
+/* Section 2: Parallax with Rounded Borders as per sketch */
+.parallax-box {
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../img/backgroundL.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    height: 450px;
+    border-radius: 40px; /* The rounded border from your sketch */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+.max-w-700 {
+    max-width: 700px;
+}
+
+/* Section 3: Showcase Cards */
+.showcase-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.showcase-card:hover {
+    transform: translateY(-10px);
+    border-color: #00D1FF;
+}
+
+.user-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto;
+    background-size: cover;
+    background-position: center;
+    border: 3px solid #7000FF;
+}
+
+/* Ensure navbar style carries over */
+.navbar-custom {
+    background: rgba(2, 2, 5, 0.95) !important;
+    backdrop-filter: blur(12px);
+}
+
+/* Gamer Feedback Card Enhancements */
+.border-glow {
+    border: 1px solid rgba(0, 209, 255, 0.1) !important;
+    background: #ffffff !important;
+}
+
+.border-glow:hover {
+    box-shadow: 0 0 20px rgba(0, 209, 255, 0.2) !important;
+    border-color: #00D1FF !important;
+}
+
+/* User Avatar Shadows */
+.shadow-cyan {
+    border: 3px solid #00D1FF !important;
+    box-shadow: 0 0 10px rgba(0, 209, 255, 0.5);
+}
+
+.shadow-purple {
+    border: 3px solid #7000FF !important;
+    box-shadow: 0 0 10px rgba(112, 0, 255, 0.5);
+}
+
+/* Star Rating Icons */
+.bi-star-fill {
+    font-size: 0.9rem;
+    margin: 0 1px;
 }
