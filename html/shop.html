@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-custom fixed-top p-2">
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top p-2">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold text-gradient font-orbitron ms-2 fs-3" href="../index.html">ORBYTRA</a>
             
@@ -33,6 +33,78 @@
             </div>
         </div>
     </nav>
+
+    <section class="container py-5 mt-5">
+        <div class="p-5 mb-4 bg-dark text-white rounded-5 shadow-lg">
+            <div class="row align-items-center g-5 py-5">
+                <div class="col-lg-7 text-center text-lg-start">
+                    <h1 class="display-3 fw-bold font-play mb-3">Epic Gear & <br>Limited Items!</h1>
+                    <p class="fs-4 font-monda opacity-75 mb-4">Boost your collection with unique assets!</p>
+                    <button class="btn btn-gradient btn-lg px-5 rounded-pill">Shop Featured</button>
+                </div>
+                <div class="col-lg-5 text-center">
+                    <div class="bg-secondary rounded-4 py-5 opacity-25"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mb-5">
+        <div class="row g-4">
+            
+            <aside class="col-lg-3">
+                <div class="p-4 bg-white border rounded-4 sticky-top" style="top: 100px;">
+                    <h5 class="fw-bold font-play mb-4 text-dark">Categories</h5>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="cat1">
+                        <label class="form-check-label font-monda" for="cat1">Avatars</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="cat2">
+                        <label class="form-check-label font-monda" for="cat2">Gear</label>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h5 class="fw-bold font-play mb-3 text-dark">Sort By</h5>
+                    <select class="form-select border-light-subtle bg-light font-monda">
+                        <option>Newest</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                    </select>
+                </div>
+            </aside>
+
+            <main class="col-lg-9">
+                <h3 class="fw-bold font-play mb-4 text-dark">New Releases</h3>
+                
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    
+                    <div class="col">
+                        <div class="card h-100 p-3 border-0 shadow-sm rounded-4 text-center bg-white">
+                            <div class="bg-light rounded-3 mb-3 py-5 opacity-50">Item Photo</div>
+                            <div class="card-body p-0 d-flex flex-column">
+                                <h5 class="fw-bold font-play text-dark">Shadow Wings</h5>
+                                <p class="small text-muted font-monda mb-3">Epic rarity back item</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto border-top pt-3">
+                                    <span class="fw-bold text-dark">500 Orbs</span>
+                                    <button class="btn btn-sm btn-outline-dark rounded-pill px-3">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+            </main>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p class="small opacity-50 mb-0">© 2026 ORBYTRA | Orbs have no real-world value.</p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="../JS/app.js"></script>
