@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import {
   getAuth,
+  signOut,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
@@ -63,7 +64,7 @@ document.addEventListener("click", (e) => {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
       })
       .catch((error) => {
         alert("Sign in failed: " + error.message);
@@ -78,19 +79,21 @@ document.addEventListener("click", (e) => {
 
     // Optional: Stop signup if requirements aren't met
     if (password.length < 8 || !/\d/.test(password)) {
-        alert("Please meet all password requirements first!");
-        return;
+      alert("Please meet all password requirements first!");
+      return;
     }
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         alert("Account created successfully");
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
       })
       .catch((error) => {
         let msg = error.message;
-        if (error.code === "auth/email-already-in-use") msg = "That email is already registered.";
-        if (error.code === "auth/weak-password") msg = "Password should be at least 8 characters.";
+        if (error.code === "auth/email-already-in-use")
+          msg = "That email is already registered.";
+        if (error.code === "auth/weak-password")
+          msg = "Password should be at least 8 characters.";
         alert("Signup Failed: " + msg);
       });
   }
@@ -102,3 +105,23 @@ onAuthStateChanged(auth, (user) => {
     console.log("User is active: ", user.email);
   }
 });
+
+window.logout = async function () {
+  const auth = getAuth();
+  try {
+    // 1. Tell Firebase to end the session
+    await signOut(auth);
+
+    // 2. Clear any local data you might have saved
+    localStorage.clear();
+    sessionStorage.clear();
+
+    console.log("Logged out successfully!");
+
+    // 3. Send the user back to the sign-in page
+    window.location.href = "html/sign-in.html";
+  } catch (error) {
+    console.error("Error logging out:", error.message);
+    alert("Logout failed: " + error.message);
+  }
+};
