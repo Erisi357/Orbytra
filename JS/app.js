@@ -99,6 +99,44 @@ document.addEventListener("click", (e) => {
   }
 });
 
+// Global Orb Dust (persisted in localStorage)
+let orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
+
+// Update Orb Dust display on all pages
+if (document.getElementById("orb-amount")) {
+  document.getElementById("orb-amount").textContent = orbDust;
+}
+
+// CLICKER GAME LOGIC (only runs if elements exist)
+if (document.getElementById("click-btn")) {
+  // DOM Element References
+  const clickBtn = document.getElementById("click-btn");
+  const clickCountDisplay = document.getElementById("click-count");
+  const orbAmountDisplay = document.getElementById("orb-amount");
+  const rewardAlert = document.getElementById("reward-alert");
+
+  // Game State Variables
+  let clickCount = 0;
+  const rewardThreshold = 10;
+  const rewardAmount = 10;
+
+  // Event Listener for Clicks
+  clickBtn.addEventListener("click", () => {
+    clickCount++;
+    clickCountDisplay.textContent = clickCount;
+
+    if (clickCount % rewardThreshold === 0 && clickCount > 0) {
+      orbDust += rewardAmount;
+      localStorage.setItem("orbDust", orbDust);
+      orbAmountDisplay.textContent = orbDust;
+      rewardAlert.classList.remove("d-none");
+      setTimeout(() => {
+        rewardAlert.classList.add("d-none");
+      }, 2000);
+    }
+  });
+}
+
 // 4. Auth Observer
 onAuthStateChanged(auth, (user) => {
   if (user) {
