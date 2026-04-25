@@ -99,25 +99,25 @@ document.addEventListener("click", (e) => {
   }
 });
 
-const signInBtn = document.getElementById('signInBtn');
+const signInBtn = document.getElementById("signInBtn");
 
 if (signInBtn) {
-    signInBtn.addEventListener('click', (e) => {
-        e.preventDefault();
+  signInBtn.addEventListener("click", (e) => {
+    e.preventDefault();
 
-        // Get the current page URL
-        const currentPage = window.location.href;
+    // Get the current page URL
+    const currentPage = window.location.href;
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                alert("You are already signed in!");
-            } else {
-                // Send them to sign-in.html but append the 'redirect' info
-                // It will look like: sign-in.html?returnTo=quest-page.html
-                window.location.href = `sign-in.html?returnTo=${encodeURIComponent(currentPage)}`;
-            }
-        });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        alert("You are already signed in!");
+      } else {
+        // Send them to sign-in.html but append the 'redirect' info
+        // It will look like: sign-in.html?returnTo=quest-page.html
+        window.location.href = `sign-in.html?returnTo=${encodeURIComponent(currentPage)}`;
+      }
     });
+  });
 }
 
 // Global Orb Dust (persisted in localStorage)
@@ -127,6 +127,44 @@ let orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
 if (document.getElementById("orb-amount")) {
   document.getElementById("orb-amount").textContent = orbDust;
 }
+
+// Reward Function (Daily and 12-hour)
+function checkRewards() {
+  const now = Date.now();
+  const twelveHours = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+  const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+  // Check 12-hour reward
+  const lastTwelveHourReward = localStorage.getItem("lastTwelveHourReward");
+  if (
+    !lastTwelveHourReward ||
+    now - parseInt(lastTwelveHourReward) >= twelveHours
+  ) {
+    const twelveHourReward = 75;
+    orbDust += twelveHourReward;
+    localStorage.setItem("orbDust", orbDust);
+    localStorage.setItem("lastTwelveHourReward", now.toString());
+    alert(`12-hour reward! You have earned ${twelveHourReward} Orb Dusts!`);
+  }
+
+  // Check daily reward
+  const lastDailyReward = localStorage.getItem("lastDailyReward");
+  if (!lastDailyReward || now - parseInt(lastDailyReward) >= twentyFourHours) {
+    const dailyReward = 150;
+    orbDust += dailyReward;
+    localStorage.setItem("orbDust", orbDust);
+    localStorage.setItem("lastDailyReward", now.toString());
+    alert(`Daily reward! You have earned ${dailyReward} Orb Dusts!`);
+  }
+
+  // Update display if element exists (after all rewards are processed)
+  if (document.getElementById("orb-amount")) {
+    document.getElementById("orb-amount").textContent = orbDust;
+  }
+}
+
+// Check for rewards on page load
+checkRewards();
 
 // CLICKER GAME LOGIC (only runs if elements exist)
 if (document.getElementById("click-btn")) {
@@ -184,3 +222,149 @@ window.logout = async function () {
     alert("Logout failed: " + error.message);
   }
 };
+
+// memory game
+
+// =======================
+// SELECT ELEMENTS
+// =======================
+
+const cards = document.querySelectorAll(".card");
+const scoreDisplay = document.querySelector(".map span");
+
+// =======================
+// GAME STATE VARIABLES
+// =======================
+
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
+let pairsFound = 0;
+const maxOrbsReward = 100;
+const maxPairsFound = 8;
+
+// =======================
+// CREATE PAIRS
+// =======================
+
+// 8 pairs for 16 cards
+const images = [
+  "img1.png",
+  "img2.png",
+  "img3.png",
+  "img4.png",
+  "img5.png",
+  "img6.png",
+  "img7.png",
+  "img8.png",
+];
+
+// duplicate array -> pairs
+const gameImages = [...images, ...images];
+
+// shuffle
+gameImages.sort(() => Math.random() - 0.5);
+
+// =======================
+// ASSIGN IMAGES TO CARDS
+// =======================
+
+cards.forEach((card, index) => {
+  const img = card.querySelector("img");
+
+  // card back image (default)
+  img.src = "../img/card.png";
+
+  // store hidden image
+  card.dataset.image = "../img/" + gameImages[index];
+
+  // click listener
+  card.addEventListener("click", flipCard);
+});
+
+// =======================
+// FLIP CARD
+// =======================
+
+function flipCard() {
+  if (lockBoard) return;
+  if (this === firstCard) return;
+
+  const img = this.querySelector("img");
+
+  // show real image
+  img.src = this.dataset.image;
+
+  if (!firstCard) {
+    firstCard = this;
+    return;
+  }
+
+  secondCard = this;
+  lockBoard = true;
+
+  checkMatch();
+}
+
+// =======================
+// CHECK MATCH
+// =======================
+
+function checkMatch() {
+  const isMatch = firstCard.dataset.image === secondCard.dataset.image;
+
+  if (isMatch) {
+    disableCards();
+  } else {
+    unflipCards();
+  }
+}
+
+// =======================
+// MATCH FOUND
+// =======================
+
+function disableCards() {
+  firstCard.removeEventListener("click", flipCard);
+  secondCard.removeEventListener("click", flipCard);
+
+  pairsFound++;
+  scoreDisplay.textContent = pairsFound;
+  rewardOrbs();
+
+  resetBoard();
+}
+
+// =======================
+// NOT MATCHED
+// =======================
+
+function unflipCards() {
+  setTimeout(() => {
+    firstCard.querySelector("img").src = "../img/card.png";
+    secondCard.querySelector("img").src = "../img/orb.png";
+
+    resetBoard();
+  }, 800);
+}
+
+// =======================
+// RESET TURN
+// =======================
+
+function resetBoard() {
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+}
+
+function rewardOrbs() {
+  if (pairsFound == maxPairsFound) {
+    orbDust += maxOrbsReward;
+    localStorage.setItem("orbDust", orbDust);
+    if (document.getElementById("orb-amount")) {
+      document.getElementById("orb-amount").textContent = orbDust;
+    }
+    alert(`You have earned ${maxOrbsReward} Orb Dusts!`);
+  }
+}

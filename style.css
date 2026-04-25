@@ -233,3 +233,62 @@ body {
     align-items: center;
     background: linear-gradient(180deg, #7FD6E8, #A384F5)
 }
+
+/* memory game*/
+
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.map {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+}
+
+.map span {
+    font-size: 30px;
+    margin: 6px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    justify-items: start;
+    margin: 0 auto;
+}
+
+.card {
+    width: fit-content;
+    height: fit-content;
+    margin: 10px;
+}
+
+.cardImage {
+    width: 100px;
+    height: 125px;
+    object-fit: contain;
+}
+
+.backButton {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.backButton a {
+    width: 50px;
+    height: 50px;
+    background-color: lightgray;
+    border-radius: 50%;
+    margin: 10px;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    font-size: 40px;
+    text-align: center;
+} 
