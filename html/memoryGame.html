@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%;">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="../style.css">
 	<title>Memory Game</title>
 </head>
-<body>
-	<header>
+<body style="height: 100%; background-image: url(../img/memGameBackground.png); background-repeat: no-repeat; background-size: 100%;">
+	<header style="height: 6%;">
 		<div class="backButton">
 			<a href="quests.html">Back</a>
 		</div>
@@ -81,11 +81,11 @@
 		</div>
 
 		<div class="map">
-			<h1 id="pairsFoundTracker">Pairs found:</h1><span>0</span>
-			<p id="orb-dust" class="text-white mb-0 fs-5 font-orbitron">Orb Dust: <span id="orb-amount" class="text-gradient fs-5">0</span></p>
+			<h1 id="pairsFoundTracker">Pairs found:<span>0</span></h1>
+			<p id="orb-dust" class="text-white mb-0 fs-5 font-orbitron">Orb Dust: <span style="font-size: 19px;" id="orb-amount" class="text-gradient fs-5">0</span></p>
 		</div>
 	</div>
 
-	<script src="../JS/app.js"></script>
+	<script type="module" src="../JS/app.js"></script>
 </body>
 </html>

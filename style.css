@@ -239,7 +239,9 @@ body {
 .game {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    height: 94%;
 }
 
 .map {
@@ -247,10 +249,17 @@ body {
     flex-direction: row;
     justify-items: center;
     align-items: center;
+    justify-content: space-between;
+    color: white;
+    width: 250px;
+}
+
+.map h1 {
+    font-size: 19px;
 }
 
 .map span {
-    font-size: 30px;
+    font-size: 19px;
     margin: 6px;
 }
 
@@ -259,18 +268,23 @@ body {
     grid-template-columns: auto auto auto auto;
     justify-items: start;
     margin: 0 auto;
+    background-color: rgba(125, 125, 125, 0.5);
+    border: 1px solid white;
+    border-radius: 6px;
+    padding: 10px;
 }
 
 .card {
     width: fit-content;
     height: fit-content;
-    margin: 10px;
+    margin: 5px;
 }
 
 .cardImage {
-    width: 100px;
-    height: 125px;
+    width: 60px;
+    height: 85px;
     object-fit: contain;
+    pointer-events: none;
 }
 
 .backButton {
@@ -281,14 +295,14 @@ body {
 }
 
 .backButton a {
-    width: 50px;
-    height: 50px;
-    background-color: lightgray;
-    border-radius: 50%;
-    margin: 10px;
-    padding: 5px;
     text-decoration: none;
-    color: black;
-    font-size: 40px;
+    color: white;
+    font-size: 20px;
+    margin: 6px;
+    padding: 5px;
+    width: 70px;
     text-align: center;
-} 
+    background-color: rgba(125, 125, 125, 0.5);
+    border: 1px solid white;
+    border-radius: 6px;
+}
