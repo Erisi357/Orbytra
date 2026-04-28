@@ -20,6 +20,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+let isSignedIn = false;
+let rewardsChecked = false;
+
+function updateOrbDisplay() {
+  const orbAmountEl = document.getElementById("orb-amount");
+  if (orbAmountEl) orbAmountEl.textContent = orbDust;
+}
+
 // 1. Requirement Elements
 const reqLength = document.getElementById("req-length");
 const reqSpecial = document.getElementById("req-special");
@@ -54,21 +62,62 @@ if (passwordInput) {
   });
 }
 
+function getAuthFormValues() {
+  const email = document.getElementById("reg-email")?.value ?? "";
+  const password = document.getElementById("reg-password")?.value ?? "";
+  return { email: email.trim(), password };
+}
+
+function handleSignIn() {
+  const { email, password } = getAuthFormValues();
+  if (!email || !password) {
+    alert("Please enter both email and password.");
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      window.location.href = "../index.html";
+    })
+    .catch((error) => {
+      let message = "Sign in failed. Please check your credentials.";
+      if (error.code === "auth/invalid-email")
+        message = "Please enter a valid email address.";
+      if (error.code === "auth/user-not-found")
+        message = "No account found with that email.";
+      if (error.code === "auth/wrong-password")
+        message = "Incorrect password. Please try again.";
+      if (error.code === "auth/too-many-requests")
+        message = "Too many failed attempts. Please try again later.";
+      alert(message);
+    });
+}
+
+const signinForm = document.getElementById("signin-form");
+if (signinForm) {
+  signinForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    handleSignIn();
+  });
+}
+
 // 3. Combined Click Listener for Buttons
 document.addEventListener("click", (e) => {
-  // SIGN IN LOGIC
-  if (e.target && e.target.id === "sign-in-btn") {
-    e.preventDefault();
-    const email = document.getElementById("reg-email").value;
-    const password = document.getElementById("reg-password").value;
+  const clickTarget =
+    e.target instanceof Element ? e.target : e.target.parentElement;
+  const questTarget = clickTarget?.closest(
+    'a[href$="clickerGame.html"], a[href$="memoryGame.html"], a[href$="Orbytra-Survey.html"], a[href$="EAGLE_ODYLPSurvey.html"], a[href$="Online-ShoppingSurvey.html"], a[href$="Orbytra-Video1.html"], a[href$="Orbytra-Video2.html"], button[data-bs-toggle="modal"]',
+  );
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        window.location.href = "../index.html";
-      })
-      .catch((error) => {
-        alert("Sign in failed: " + error.message);
-      });
+  if (questTarget && !isSignedIn) {
+    e.preventDefault();
+    alert("You must sign in to access Quests and earn Orb Dust.");
+    window.location.href = "/html/sign-in.html";
+    return;
   }
 
   // SIGN UP LOGIC
@@ -113,8 +162,8 @@ if (signInBtn) {
         alert("You are already signed in!");
       } else {
         // Send them to sign-in.html but append the 'redirect' info
-        // It will look like: sign-in.html?returnTo=quest-page.html
-        window.location.href = `sign-in.html?returnTo=${encodeURIComponent(currentPage)}`;
+        // It will look like: /html/sign-in.html?returnTo=quest-page.html
+        window.location.href = `/html/sign-in.html?returnTo=${encodeURIComponent(currentPage)}`;
       }
     });
   });
@@ -129,7 +178,12 @@ if (document.getElementById("orb-amount")) {
 }
 
 // Reward Function (Daily and 12-hour)
-function checkRewards() {
+function checkRewards(isSignedIn = false) {
+  updateOrbDisplay();
+  if (!isSignedIn) {
+    return;
+  }
+
   const now = Date.now();
   const twelveHours = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
   const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -158,13 +212,12 @@ function checkRewards() {
   }
 
   // Update display if element exists (after all rewards are processed)
-  if (document.getElementById("orb-amount")) {
-    document.getElementById("orb-amount").textContent = orbDust;
-  }
+  updateOrbDisplay();
+  rewardsChecked = true;
 }
 
 // Check for rewards on page load
-checkRewards();
+checkRewards(false);
 
 // CLICKER GAME LOGIC (only runs if elements exist)
 if (document.getElementById("click-btn")) {
@@ -199,19 +252,36 @@ if (document.getElementById("click-btn")) {
 // 4. Auth Observer
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    isSignedIn = true;
     console.log("User is active: ", user.email);
+    if (!rewardsChecked) {
+      checkRewards(true);
+    }
+  } else {
+    isSignedIn = false;
+    updateOrbDisplay();
   }
 });
 
 window.logout = async function () {
   const auth = getAuth();
   try {
+    // Preserve reward timestamps across logout
+    const lastTwelveHourReward = localStorage.getItem("lastTwelveHourReward");
+    const lastDailyReward = localStorage.getItem("lastDailyReward");
+
     // 1. Tell Firebase to end the session
     await signOut(auth);
 
-    // 2. Clear any local data you might have saved
+    // 2. Clear local data but preserve reward timestamps
     localStorage.clear();
     sessionStorage.clear();
+
+    // Restore timestamps so rewards don't reset on every logout/signin
+    if (lastTwelveHourReward)
+      localStorage.setItem("lastTwelveHourReward", lastTwelveHourReward);
+    if (lastDailyReward)
+      localStorage.setItem("lastDailyReward", lastDailyReward);
 
     console.log("Logged out successfully!");
 
