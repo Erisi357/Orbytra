@@ -173,9 +173,17 @@ if (signInBtn) {
 let orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
 
 // Update Orb Dust display on all pages
-if (document.getElementById("orb-amount")) {
-  document.getElementById("orb-amount").textContent = orbDust;
-}
+updateOrbDisplay();
+
+window.addEventListener("focus", () => {
+  orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
+  updateOrbDisplay();
+});
+
+window.addEventListener("storage", () => {
+  orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
+  updateOrbDisplay();
+});
 
 // Reward Function (Daily and 12-hour)
 function checkRewards(isSignedIn = false) {

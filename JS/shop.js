@@ -1,6 +1,5 @@
 // Select the card div
 const parentDiv = document.querySelector("#parentQuestDiv");
-
 // Card array
 cards = [
 	{
@@ -77,7 +76,7 @@ cards = [
 ];
 
 // Create card
-function createCard(img, alt, title, description, price) {
+function createCard(img, alt, title, description, price, type) {
 	const colDiv = document.createElement("div");
 	colDiv.classList.add("col");
 
@@ -116,18 +115,41 @@ function createCard(img, alt, title, description, price) {
 	const buyButton = document.createElement("button");
 	buyButton.classList.add("btn", "btn-gradient", "rounded-pill", "px-3");
 	buyButton.textContent = "BUY";
+	buyButton.addEventListener("click", function () {
+		buyOrb(title, price, type);
+	});
 	buyDiv.appendChild(buyButton);
 
 	colDiv.appendChild(cardDiv);
 	return colDiv;
 }
 
+function buyOrb(title, price, type) {
+	let orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
+	let itemPrice = Number(price);
+
+	if (orbDust >= itemPrice) {
+		orbDust -= itemPrice;
+		localStorage.setItem("orbDust", orbDust);
+
+		const orbAmount = document.querySelector("#orb-amount");
+		if (orbAmount) {
+			orbAmount.textContent = orbDust;
+		}
+
+		alert(`You bought ${title} (${type}) for the price of ${price} Orb Dust.`);
+	} else {
+		alert("Not enough Orb Dust!");
+	}
+}
+
+
 // Display all cards
 function displayAllCards(cards) {
 	parentDiv.innerHTML = "";
 
 	for (const card of cards) {
-		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price, card.type));
 	}
 }
 
@@ -138,19 +160,19 @@ function displayCards(cards, filters) {
 	for (const card of cards) {
 
 		if (filters[0] && card.type === "common") {
-			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price, card.type));
 		}
 
 		if (filters[1] && card.type === "rare") {
-			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price, card.type));
 		}
 
 		if (filters[2] && card.type === "legendary") {
-			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price, card.type));
 		}
 
 		if (filters[3] && card.type === "mythical") {
-			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price, card.type));
 		}
 	}
 }
