@@ -3,30 +3,75 @@
 cards = [
 	{
 		type: "common",
-		img: "",
-		alt: "epic boots",
-		title: "Epic Boots",
-		description: "Very Epic Boots",
-		price: "250"
+		img: "/img/common1.png",
+		alt: "Steel Marble",
+		title: "Steel Marble",
+		description: "Common Rarity Item",
+		price: "100"
 	},
 
 	{
 		type: "common",
-		img: "",
-		alt: "epic gloves",
-		title: "Epic Gloves",
-		description: "Very Epic Gloves",
-		price: "150"
+		img: "/img/common2.png",
+		alt: "Basic Sphere",
+		title: "Basic Sphere",
+		description: "Common Rarity Item",
+		price: "250"
 	},
 
 	{
 		type: "rare",
-		img: "",
-		alt: "angel of control",
-		title: "Angel of Control Skin",
-		description: "Angel of Control skin out now!",
+		img: "/img/rare1.png",
+		alt: "Blood Stone",
+		title: "Blood Stone",
+		description: "Rare Rarity Item",
+		price: "300"
+	},
+
+	{
+		type: "rare",
+		img: "/img/rare2.png",
+		alt: "Crimson Shell",
+		title: "Crimson Shell",
+		description: "Rare Rarity Item",
+		price: "500"
+	},
+
+	{
+		type: "legendary",
+		img: "/img/legendary1.png",
+		alt: "Apex Emerald",
+		title: "Apex Emerald",
+		description: "Legendary Rarity Item",
+		price: "700"
+	},
+
+	{
+		type: "legendary",
+		img: "/img/legendary2.png",
+		alt: "Zenith Orb",
+		title: "Zenith Orb",
+		description: "Legendary Rarity Item",
+		price: "950"
+	},
+
+	{
+		type: "mythical",
+		img: "/img/mythical1.png",
+		alt: "Abyssal Flame",
+		title: "Abyssal Flame",
+		description: "Mythical Rarity Item",
 		price: "1000"
-	}
+	},
+
+	{
+		type: "mythical",
+		img: "/img/mythical2.png",
+		alt: "Eclipsed Core",
+		title: "Eclipsed Core",
+		description: "Mythical Rarity Item",
+		price: "1200"
+	},
 ]
 
 // Checkboxes
@@ -67,16 +112,13 @@ function createCard(img, alt, title, description, price) {
 	colDiv.classList.add("col")
 
 	const cardDiv = document.createElement("div");
-	cardDiv.classList.add("card", "h-100", "p-3", "border-0", "shadow-sm", "rounded-4", "text-center", "bg-white");
-
-	const imgDiv = document.createElement("div");
-	imgDiv.classList.add("bg-light", "rounded-3", "mb-3", "py-5", "opacity-50");
-	cardDiv.appendChild(imgDiv)
+	cardDiv.classList.add("card", "shop-card", "h-100", "p-4", "border-0", "shadow-sm", "rounded-4", "text-center", "bg-white");
 
 	const cardImg = document.createElement("img");
 	cardImg.src = img;
 	cardImg.alt = alt;
-	imgDiv.appendChild(cardImg);
+	cardImg.classList.add("shop-card-img", "mx-auto", "mb-4");
+	cardDiv.appendChild(cardImg);
 
 	const cardBody = document.createElement("div");
 	cardBody.classList.add("card-body", "p-0", "d-flex", "flex-column");

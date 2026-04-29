@@ -204,6 +204,30 @@ body {
     background-color: #f8f9fa;
 }
 
+/* Shop cards */
+.shop-grid {
+    align-items: stretch;
+}
+
+.shop-card {
+    width: 100%;
+    min-height: 350px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.shop-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12) !important;
+}
+
+.shop-card-img {
+    display: block;
+    width: 100%;
+    max-width: 185px;
+    height: 150px;
+    object-fit: contain;
+}
+
 .label {
     font-size: 23px;
     margin: 30px 0 20px 0;
@@ -274,7 +298,7 @@ body {
     padding: 10px;
 }
 
-.card {
+.cards .card {
     width: fit-content;
     height: fit-content;
     margin: 5px;
