@@ -2,7 +2,7 @@
 
 cards = [
 	{
-		type: "gear",
+		type: "common",
 		img: "",
 		alt: "epic boots",
 		title: "Epic Boots",
@@ -11,7 +11,7 @@ cards = [
 	},
 
 	{
-		type: "gear",
+		type: "common",
 		img: "",
 		alt: "epic gloves",
 		title: "Epic Gloves",
@@ -20,7 +20,7 @@ cards = [
 	},
 
 	{
-		type: "avatar",
+		type: "rare",
 		img: "",
 		alt: "angel of control",
 		title: "Angel of Control Skin",
@@ -34,17 +34,25 @@ cards = [
 function updateFilters() {
 	filter = []
 
-	const avatars = document.querySelector("#cat1").checked;
-	const gear = document.querySelector("#cat2").checked;
-	filter.push(avatars);
-	filter.push(gear);
+	const common = document.querySelector("#cat1").checked;
+	const rare = document.querySelector("#cat2").checked;
+	const legendary = document.querySelector("#cat3").checked;
+	const mythical = document.querySelector("#cat4").checked;
+	filter.push(common);
+	filter.push(rare);
+	filter.push(legendary);
+	filter.push(mythical);
 
 	return filter
 }
 
 const checkBoxes = document.querySelectorAll(".form-check-input").forEach(cb => {
 	cb.addEventListener("change", function(){
-		updateFilters();
+		if (updateFilters()[0] == false && updateFilters()[1] == false && updateFilters()[2] == false && updateFilters()[3] == false) {
+			displayAllCards(cards);
+		}else {
+			displayCards(cards, updateFilters());
+		}
 	});
 });
 
@@ -104,6 +112,36 @@ function createCard(img, alt, title, description, price) {
 
 // Display Cards
 
-for (const card of cards) {
-	parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+function displayAllCards(cards) {
+	parentDiv.innerHTML = "";
+
+	for (const card of cards) {
+		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+	}
 }
+
+function displayCards(cards, filters) {
+	parentDiv.innerHTML = "";
+
+	for (const card of cards) {
+	if (updateFilters()[0] == true && card.type == "common") {
+		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+	}
+
+	if (updateFilters()[1] == true && card.type == "rare") {
+		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+	}
+
+	if (updateFilters()[2] == true && card.type == "legendary") {
+		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+	}
+
+	if (updateFilters()[3] == true && card.type == "mythical") {
+		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+	}
+}
+}
+
+// Initial cards display
+
+displayAllCards(cards);
