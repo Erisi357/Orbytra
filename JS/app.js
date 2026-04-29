@@ -266,18 +266,20 @@ onAuthStateChanged(auth, (user) => {
 window.logout = async function () {
   const auth = getAuth();
   try {
-    // Preserve reward timestamps across logout
+    // Preserve orb balance and reward timestamps across logout
+    const savedOrbDust = localStorage.getItem("orbDust");
     const lastTwelveHourReward = localStorage.getItem("lastTwelveHourReward");
     const lastDailyReward = localStorage.getItem("lastDailyReward");
 
     // 1. Tell Firebase to end the session
     await signOut(auth);
 
-    // 2. Clear local data but preserve reward timestamps
+    // 2. Clear local data but preserve Orb Dust and reward timestamps
     localStorage.clear();
     sessionStorage.clear();
 
-    // Restore timestamps so rewards don't reset on every logout/signin
+    // Restore Orb Dust and timestamps so logout/signin doesn't reset progress
+    if (savedOrbDust) localStorage.setItem("orbDust", savedOrbDust);
     if (lastTwelveHourReward)
       localStorage.setItem("lastTwelveHourReward", lastTwelveHourReward);
     if (lastDailyReward)
@@ -292,149 +294,3 @@ window.logout = async function () {
     alert("Logout failed: " + error.message);
   }
 };
-
-// memory game
-
-// =======================
-// SELECT ELEMENTS
-// =======================
-
-const cards = document.querySelectorAll(".card");
-const scoreDisplay = document.querySelector(".map span");
-
-// =======================
-// GAME STATE VARIABLES
-// =======================
-
-let firstCard = null;
-let secondCard = null;
-let lockBoard = false;
-let pairsFound = 0;
-const maxOrbsReward = 100;
-const maxPairsFound = 8;
-
-// =======================
-// CREATE PAIRS
-// =======================
-
-// 8 pairs for 16 cards
-const images = [
-  "img1.png",
-  "img2.png",
-  "img3.png",
-  "img4.png",
-  "img5.png",
-  "img6.png",
-  "img7.png",
-  "img8.png",
-];
-
-// duplicate array -> pairs
-const gameImages = [...images, ...images];
-
-// shuffle
-gameImages.sort(() => Math.random() - 0.5);
-
-// =======================
-// ASSIGN IMAGES TO CARDS
-// =======================
-
-cards.forEach((card, index) => {
-  const img = card.querySelector("img");
-
-  // card back image (default)
-  img.src = "../img/card.png";
-
-  // store hidden image
-  card.dataset.image = "../img/" + gameImages[index];
-
-  // click listener
-  card.addEventListener("click", flipCard);
-});
-
-// =======================
-// FLIP CARD
-// =======================
-
-function flipCard() {
-  if (lockBoard) return;
-  if (this === firstCard) return;
-
-  const img = this.querySelector("img");
-
-  // show real image
-  img.src = this.dataset.image;
-
-  if (!firstCard) {
-    firstCard = this;
-    return;
-  }
-
-  secondCard = this;
-  lockBoard = true;
-
-  checkMatch();
-}
-
-// =======================
-// CHECK MATCH
-// =======================
-
-function checkMatch() {
-  const isMatch = firstCard.dataset.image === secondCard.dataset.image;
-
-  if (isMatch) {
-    disableCards();
-  } else {
-    unflipCards();
-  }
-}
-
-// =======================
-// MATCH FOUND
-// =======================
-
-function disableCards() {
-  firstCard.removeEventListener("click", flipCard);
-  secondCard.removeEventListener("click", flipCard);
-
-  pairsFound++;
-  scoreDisplay.textContent = pairsFound;
-  rewardOrbs();
-
-  resetBoard();
-}
-
-// =======================
-// NOT MATCHED
-// =======================
-
-function unflipCards() {
-  setTimeout(() => {
-    firstCard.querySelector("img").src = "../img/card.png";
-    secondCard.querySelector("img").src = "../img/orb.png";
-
-    resetBoard();
-  }, 800);
-}
-
-// =======================
-// RESET TURN
-// =======================
-
-function resetBoard() {
-  firstCard = null;
-  secondCard = null;
-  lockBoard = false;
-}
-
-function rewardOrbs() {
-  if (pairsFound == maxPairsFound) {
-    orbDust += maxOrbsReward;
-    localStorage.setItem("orbDust", orbDust);
-    if (document.getElementById("orb-amount")) {
-      document.getElementById("orb-amount").textContent = orbDust;
-    }
-    alert(`You have earned ${maxOrbsReward} Orb Dusts!`);
-  }
-}
