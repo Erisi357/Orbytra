@@ -1,9 +1,11 @@
-// Card array
+// Select the card div
+const parentDiv = document.querySelector("#parentQuestDiv");
 
+// Card array
 cards = [
 	{
 		type: "common",
-		img: "/img/common1.png",
+		img: "../img/common1.png",
 		alt: "Steel Marble",
 		title: "Steel Marble",
 		description: "Common Rarity Item",
@@ -12,7 +14,7 @@ cards = [
 
 	{
 		type: "common",
-		img: "/img/common2.png",
+		img: "../img/common2.png",
 		alt: "Basic Sphere",
 		title: "Basic Sphere",
 		description: "Common Rarity Item",
@@ -21,7 +23,7 @@ cards = [
 
 	{
 		type: "rare",
-		img: "/img/rare1.png",
+		img: "../img/rare1.png",
 		alt: "Blood Stone",
 		title: "Blood Stone",
 		description: "Rare Rarity Item",
@@ -30,7 +32,7 @@ cards = [
 
 	{
 		type: "rare",
-		img: "/img/rare2.png",
+		img: "../img/rare2.png",
 		alt: "Crimson Shell",
 		title: "Crimson Shell",
 		description: "Rare Rarity Item",
@@ -39,7 +41,7 @@ cards = [
 
 	{
 		type: "legendary",
-		img: "/img/legendary1.png",
+		img: "../img/legendary1.png",
 		alt: "Apex Emerald",
 		title: "Apex Emerald",
 		description: "Legendary Rarity Item",
@@ -48,7 +50,7 @@ cards = [
 
 	{
 		type: "legendary",
-		img: "/img/legendary2.png",
+		img: "../img/legendary2.png",
 		alt: "Zenith Orb",
 		title: "Zenith Orb",
 		description: "Legendary Rarity Item",
@@ -57,7 +59,7 @@ cards = [
 
 	{
 		type: "mythical",
-		img: "/img/mythical1.png",
+		img: "../img/mythical1.png",
 		alt: "Abyssal Flame",
 		title: "Abyssal Flame",
 		description: "Mythical Rarity Item",
@@ -66,50 +68,18 @@ cards = [
 
 	{
 		type: "mythical",
-		img: "/img/mythical2.png",
+		img: "../img/mythical2.png",
 		alt: "Eclipsed Core",
 		title: "Eclipsed Core",
 		description: "Mythical Rarity Item",
 		price: "1200"
 	},
-]
+];
 
-// Checkboxes
-
-function updateFilters() {
-	filter = []
-
-	const common = document.querySelector("#cat1").checked;
-	const rare = document.querySelector("#cat2").checked;
-	const legendary = document.querySelector("#cat3").checked;
-	const mythical = document.querySelector("#cat4").checked;
-	filter.push(common);
-	filter.push(rare);
-	filter.push(legendary);
-	filter.push(mythical);
-
-	return filter
-}
-
-const checkBoxes = document.querySelectorAll(".form-check-input").forEach(cb => {
-	cb.addEventListener("change", function(){
-		if (updateFilters()[0] == false && updateFilters()[1] == false && updateFilters()[2] == false && updateFilters()[3] == false) {
-			displayAllCards(cards);
-		}else {
-			displayCards(cards, updateFilters());
-		}
-	});
-});
-
-// Select the card div
-
-const parentDiv = document.querySelector("#parentQuestDiv");
-
-//Create the cards function
-
+// Create card
 function createCard(img, alt, title, description, price) {
-	const colDiv = document.createElement("div")
-	colDiv.classList.add("col")
+	const colDiv = document.createElement("div");
+	colDiv.classList.add("col");
 
 	const cardDiv = document.createElement("div");
 	cardDiv.classList.add("card", "shop-card", "h-100", "p-4", "border-0", "shadow-sm", "rounded-4", "text-center", "bg-white");
@@ -130,11 +100,11 @@ function createCard(img, alt, title, description, price) {
 	cardBody.appendChild(itemTitle);
 
 	const itemP = document.createElement("p");
-	itemP.classList.add("small", "text-muted", "font-monda", "mb-3")
+	itemP.classList.add("small", "text-muted", "font-monda", "mb-3");
 	itemP.textContent = description;
 	cardBody.appendChild(itemP);
 
-	const buyDiv = document.createElement("div")
+	const buyDiv = document.createElement("div");
 	buyDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "mt-auto", "border-top", "pt-3");
 	cardBody.appendChild(buyDiv);
 
@@ -148,12 +118,11 @@ function createCard(img, alt, title, description, price) {
 	buyButton.textContent = "BUY";
 	buyDiv.appendChild(buyButton);
 
-	colDiv.appendChild(cardDiv)
+	colDiv.appendChild(cardDiv);
 	return colDiv;
 }
 
-// Display Cards
-
+// Display all cards
 function displayAllCards(cards) {
 	parentDiv.innerHTML = "";
 
@@ -162,28 +131,80 @@ function displayAllCards(cards) {
 	}
 }
 
+// Display filtered cards
 function displayCards(cards, filters) {
 	parentDiv.innerHTML = "";
 
 	for (const card of cards) {
-	if (updateFilters()[0] == true && card.type == "common") {
-		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
-	}
 
-	if (updateFilters()[1] == true && card.type == "rare") {
-		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
-	}
+		if (filters[0] && card.type === "common") {
+			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+		}
 
-	if (updateFilters()[2] == true && card.type == "legendary") {
-		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
-	}
+		if (filters[1] && card.type === "rare") {
+			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+		}
 
-	if (updateFilters()[3] == true && card.type == "mythical") {
-		parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+		if (filters[2] && card.type === "legendary") {
+			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+		}
+
+		if (filters[3] && card.type === "mythical") {
+			parentDiv.appendChild(createCard(card.img, card.alt, card.title, card.description, card.price));
+		}
 	}
 }
+
+// Filters
+function updateFilters() {
+	let filter = [];
+
+	const common = document.querySelector("#cat1").checked;
+	const rare = document.querySelector("#cat2").checked;
+	const legendary = document.querySelector("#cat3").checked;
+	const mythical = document.querySelector("#cat4").checked;
+
+	filter.push(common);
+	filter.push(rare);
+	filter.push(legendary);
+	filter.push(mythical);
+
+	return filter;
 }
 
-// Initial cards display
+// Checkboxes event
+document.querySelectorAll(".form-check-input").forEach(cb => {
+	cb.addEventListener("change", function () {
+		let filter = updateFilters();
 
+		if (!filter[0] && !filter[1] && !filter[2] && !filter[3]) {
+			displayAllCards(cards);
+		} else {
+			displayCards(cards, filter);
+		}
+	});
+});
+
+// Price sorting
+const selector = document.querySelector("#select");
+
+selector.addEventListener("change", function () {
+	const filters = updateFilters();
+
+	let sorted = [...cards];
+
+	if (selector.value === "low") {
+		sorted.sort((a, b) => Number(a.price) - Number(b.price));
+	} else {
+		sorted.sort((a, b) => Number(b.price) - Number(a.price));
+	}
+
+	if (!filters[0] && !filters[1] && !filters[2] && !filters[3]) {
+		displayAllCards(sorted);
+	} else {
+		displayCards(sorted, filters);
+	}
+});
+
+// Initial render
 displayAllCards(cards);
