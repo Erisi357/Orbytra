@@ -110,7 +110,7 @@ body {
 
 /* Section 2: Parallax with Rounded Borders as per sketch */
 .parallax-box {
-    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../img/backgroundL.png');
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/backgroundL.png');
     background-attachment: fixed;
     background-position: center;
     background-size: cover;

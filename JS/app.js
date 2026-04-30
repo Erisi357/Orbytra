@@ -23,6 +23,11 @@ const auth = getAuth(app);
 let isSignedIn = false;
 let rewardsChecked = false;
 
+function sitePath(pathFromRoot) {
+  const prefix = window.location.pathname.includes("/html/") ? "../" : "";
+  return prefix + pathFromRoot;
+}
+
 function updateOrbDisplay() {
   const orbAmountEl = document.getElementById("orb-amount");
   if (orbAmountEl) orbAmountEl.textContent = orbDust;
@@ -116,7 +121,7 @@ document.addEventListener("click", (e) => {
   if (questTarget && !isSignedIn) {
     e.preventDefault();
     alert("You must sign in to access Quests and earn Orb Dust.");
-    window.location.href = "/html/sign-in.html";
+    window.location.href = sitePath("html/sign-in.html");
     return;
   }
 
@@ -135,7 +140,7 @@ document.addEventListener("click", (e) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         alert("Account created successfully");
-        window.location.href = "/html/shop.html";
+        window.location.href = sitePath("html/shop.html");
       })
       .catch((error) => {
         let msg = error.message;
@@ -162,8 +167,8 @@ if (signInBtn) {
         alert("You are already signed in!");
       } else {
         // Send them to sign-in.html but append the 'redirect' info
-        // It will look like: /html/sign-in.html?returnTo=quest-page.html
-        window.location.href = `/html/sign-in.html?returnTo=${encodeURIComponent(currentPage)}`;
+        // It will look like: html/sign-in.html?returnTo=quest-page.html
+        window.location.href = `${sitePath("html/sign-in.html")}?returnTo=${encodeURIComponent(currentPage)}`;
       }
     });
   });
@@ -296,7 +301,7 @@ window.logout = async function () {
     console.log("Logged out successfully!");
 
     // 3. Send the user back to the sign-in page
-    window.location.href = "/html/sign-in.html";
+    window.location.href = sitePath("html/sign-in.html");
   } catch (error) {
     console.error("Error logging out:", error.message);
     alert("Logout failed: " + error.message);
