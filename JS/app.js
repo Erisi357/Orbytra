@@ -221,8 +221,8 @@ if (document.getElementById("click-btn")) {
 
   // Game State Variables
   let clickCount = 0;
-  const rewardThreshold = 10;
-  const rewardAmount = 10;
+  const rewardThreshold = 100;
+  const rewardAmount = 50;
 
   // Event Listener for Clicks
   clickBtn.addEventListener("click", () => {
