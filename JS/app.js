@@ -23,6 +23,11 @@ const auth = getAuth(app);
 let isSignedIn = false;
 let rewardsChecked = false;
 
+function sitePath(pathFromRoot) {
+  const prefix = window.location.pathname.includes("/html/") ? "../" : "";
+  return prefix + pathFromRoot;
+}
+
 function updateOrbDisplay() {
   const orbAmountEl = document.getElementById("orb-amount");
   if (orbAmountEl) orbAmountEl.textContent = orbDust;
@@ -81,7 +86,7 @@ function handleSignIn() {
 
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      window.location.href = "../index.html";
+      window.location.href = sitePath("index.html");
     })
     .catch((error) => {
       let message = "Sign in failed. Please check your credentials.";
@@ -116,7 +121,7 @@ document.addEventListener("click", (e) => {
   if (questTarget && !isSignedIn) {
     e.preventDefault();
     alert("You must sign in to access Quests and earn Orb Dust.");
-    window.location.href = "/html/sign-in.html";
+    window.location.href = sitePath("html/sign-in.html");
     return;
   }
 
@@ -135,7 +140,7 @@ document.addEventListener("click", (e) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         alert("Account created successfully");
-        window.location.href = "/html/shop.html";
+        window.location.href = sitePath("html/shop.html");
       })
       .catch((error) => {
         let msg = error.message;
@@ -147,27 +152,6 @@ document.addEventListener("click", (e) => {
       });
   }
 });
-
-const signInBtn = document.getElementById("signInBtn");
-
-if (signInBtn) {
-  signInBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    // Get the current page URL
-    const currentPage = window.location.href;
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        alert("You are already signed in!");
-      } else {
-        // Send them to sign-in.html but append the 'redirect' info
-        // It will look like: /html/sign-in.html?returnTo=quest-page.html
-        window.location.href = `/html/sign-in.html?returnTo=${encodeURIComponent(currentPage)}`;
-      }
-    });
-  });
-}
 
 // Global Orb Dust (persisted in localStorage)
 let orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
@@ -296,7 +280,7 @@ window.logout = async function () {
     console.log("Logged out successfully!");
 
     // 3. Send the user back to the sign-in page
-    window.location.href = "/html/sign-in.html";
+    window.location.href = sitePath("html/sign-in.html");
   } catch (error) {
     console.error("Error logging out:", error.message);
     alert("Logout failed: " + error.message);
