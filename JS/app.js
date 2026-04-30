@@ -86,7 +86,7 @@ function handleSignIn() {
 
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      window.location.href = "../index.html";
+      window.location.href = sitePath("index.html");
     })
     .catch((error) => {
       let message = "Sign in failed. Please check your credentials.";
@@ -152,27 +152,6 @@ document.addEventListener("click", (e) => {
       });
   }
 });
-
-const signInBtn = document.getElementById("signInBtn");
-
-if (signInBtn) {
-  signInBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    // Get the current page URL
-    const currentPage = window.location.href;
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        alert("You are already signed in!");
-      } else {
-        // Send them to sign-in.html but append the 'redirect' info
-        // It will look like: html/sign-in.html?returnTo=quest-page.html
-        window.location.href = `${sitePath("html/sign-in.html")}?returnTo=${encodeURIComponent(currentPage)}`;
-      }
-    });
-  });
-}
 
 // Global Orb Dust (persisted in localStorage)
 let orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
