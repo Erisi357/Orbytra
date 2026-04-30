@@ -90,16 +90,12 @@
 	<script>
 		// memory game
 
-		// =======================
-		// SELECT ELEMENTS
-		// =======================
+		// Select Elements
 
 		const cards = document.querySelectorAll(".card");
 		const scoreDisplay = document.querySelector(".map span");
 
-		// =======================
-		// GAME STATE VARIABLES
-		// =======================
+		// Game State
 
 		let firstCard = null;
 		let secondCard = null;
@@ -108,20 +104,17 @@
 		const maxOrbsReward = 100;
 		const maxPairsFound = 8;
 
-		// =======================
-		// CREATE PAIRS
-		// =======================
+		// Create Paira
 
-		// 8 pairs for 16 cards
 		const images = [
-		"img1.png",
-		"img2.png",
-		"img3.png",
-		"img4.png",
-		"img5.png",
-		"img6.png",
-		"img7.png",
-		"img8.png",
+			"img1.png",
+			"img2.png",
+			"img3.png",
+			"img4.png",
+			"img5.png",
+			"img6.png",
+			"img7.png",
+			"img8.png",
 		];
 
 		// duplicate array -> pairs
@@ -130,9 +123,7 @@
 		// shuffle
 		gameImages.sort(() => Math.random() - 0.5);
 
-		// =======================
 		// ASSIGN IMAGES TO CARDS
-		// =======================
 
 		cards.forEach((card, index) => {
 		const img = card.querySelector("img");
@@ -147,9 +138,7 @@
 		card.addEventListener("click", flipCard);
 		});
 
-		// =======================
-		// FLIP CARD
-		// =======================
+		// Flip card
 
 		function flipCard() {
 		if (lockBoard) return;
@@ -171,9 +160,7 @@
 		checkMatch();
 		}
 
-		// =======================
-		// CHECK MATCH
-		// =======================
+		// Check Match
 
 		function checkMatch() {
 		const isMatch = firstCard.dataset.image === secondCard.dataset.image;
@@ -185,9 +172,7 @@
 		}
 		}
 
-		// =======================
-		// MATCH FOUND
-		// =======================
+		// Match Found
 
 		function disableCards() {
 		firstCard.removeEventListener("click", flipCard);
@@ -200,31 +185,28 @@
 		resetBoard();
 		}
 
-		// =======================
-		// NOT MATCHED
-		// =======================
+		// Not Matched
 
 		function unflipCards() {
 		setTimeout(() => {
 			firstCard.querySelector("img").src = "../img/card.png";
-			secondCard.querySelector("img").src = "../img/orb.png";
+			secondCard.querySelector("img").src = "../img/card.png";
 
 			resetBoard();
 		}, 800);
 		}
 
-		// =======================
-		// RESET TURN
-		// =======================
+		// Reset Turn
 
 		function resetBoard() {
-		firstCard = null;
-		secondCard = null;
-		lockBoard = false;
+			firstCard = null;
+			secondCard = null;
+			lockBoard = false;
 		}
 
 		function rewardOrbs() {
 		if (pairsFound == maxPairsFound) {
+			let orbDust = parseInt(localStorage.getItem("orbDust")) || 0;
 			orbDust += maxOrbsReward;
 			localStorage.setItem("orbDust", orbDust);
 			if (document.getElementById("orb-amount")) {
